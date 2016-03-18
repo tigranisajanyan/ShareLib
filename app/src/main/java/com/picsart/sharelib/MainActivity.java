@@ -1,46 +1,77 @@
 package com.picsart.sharelib;
 
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import com.facebook.FacebookSdk;
 import com.picsart.sharelibrary.ShareConstants;
-import com.picsart.sharelibrary.ShareContraller;
+import com.picsart.sharelibrary.Utils;
+
+import java.io.File;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String url1 = "http://cdn76.picsart.com/187889742003202.gif";
-
-    private String aa = Environment.getExternalStorageDirectory() + "/IMG_20160208_104319386.jpg";
+    private static final int REQUEST_FILES = 200;
+    private String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_main);
 
-        /*LoginManager loginManager = new LoginManager(MainActivity.this);
-        loginManager.getAccessToken();
-        loginManager.setOnRequestReadyListener(new LoginManager.UserRequest() {
-            @Override
-            public void onRequestReady(int requestNumber, String token) {
-                final UploadFileToPicsart uploadFileToPicsart = new UploadFileToPicsart(MainActivity.this, token, aa);
-                uploadFileToPicsart.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                uploadFileToPicsart.setOnUploadedListener(new UploadFileToPicsart.ImageUploaded() {
-                    @Override
-                    public void uploadIsDone(boolean uploaded, String messege) {
-                        if (uploaded) {
-                            String url = uploadFileToPicsart.getUploadedImageUrl();
-                            Log.d("gaga", messege + "  " + url);
+        findViewById(R.id.chooseFile).setOnClickListener(chooseFile);
+        findViewById(R.id.nextToShare).setOnClickListener(nextActivityToShare);
 
-                            ShareContraller shareContraller = new ShareContraller(url, MainActivity.this);
-                            shareContraller.shareTo(ShareConstants.FB_PACKAGE_NAME);
-                        }
-                    }
-                });
-            }
-        });*/
-
-        ShareContraller shareContraller = new ShareContraller(aa, MainActivity.this);
-        shareContraller.shareTo(ShareConstants.FB_PACKAGE_NAME);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_FILES) {
+                filePath = Utils.getPath(data, MainActivity.this);
+
+            } else {
+
+            }
+        }
+    }
+
+    View.OnClickListener chooseFile = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, REQUEST_FILES);
+        }
+    };
+
+
+    View.OnClickListener nextActivityToShare = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           /* Intent intent = new Intent(MainActivity.this, ShareActivity.class);
+            intent.putExtra(ShareConstants.PUTEXREAS_STRING, filePath);
+            startActivity(intent);*/
+
+/*
+            //////Usage
+            CommonShareController shareContraller = new CommonShareController(filePath, MainActivity.this);
+            shareContraller.commonShareTo(ShareConstants.FB_MESSENGER_PACKAGE_NAME);*/
+
+            Utils.launchNativeApps(MainActivity.this,"testing", Utils.SupportedType.GIF,null);
+
+        }
+    };
+
+
 }
+
+
+

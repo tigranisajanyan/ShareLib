@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ShareLibrary</string>
-    <string name="facebook_app_id">539133572903067</string>
+    <string name="facebook_app_id">902902739790789</string><!--539133572903067-->
+
+    <string name="found_error">application_doesnt_found</string>
+    <string name="file_found_error">application_doesnt_found</string>
+
+    <string name="failedGetAcces">failedinServer</string>
 </resources>

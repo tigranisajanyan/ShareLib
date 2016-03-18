@@ -29,12 +29,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.7.0'
-    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.facebook.android:facebook-android-sdk:4.9.0'
     compile files('libs/httpclient-4.3.3.jar')
     compile files('libs/httpcore-4.4.jar')
     compile files('libs/httpmime-4.3.3.jar')
     compile files('libs/mygson-2.1.jar')
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
 }

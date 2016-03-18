@@ -12,7 +12,6 @@ public enum Type implements Parcelable {
     VIDEO,
     NONE;
 
-
     public static final Creator<Type> CREATOR = new Creator<Type>() {
         @Override
         public Type createFromParcel(Parcel in) {
